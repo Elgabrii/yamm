@@ -1,4 +1,5 @@
 import { Undo2 } from "lucide-react";
+import Link from 'next/link'
 
 import {
   Sidebar,
@@ -13,7 +14,7 @@ import {
 } from "@/components/ui/sidebar";
 import { ModeToggle } from "./ui/theme-toggle";
 
-const items = [{ title: "Refunds", url: "#", iconEmoji: "💸", icon: Undo2 }];
+const items = [{ title: "Refunds", url: "/", iconEmoji: "💸", icon: Undo2 }];
 
 export function AppSidebar() {
   return (
@@ -30,11 +31,11 @@ export function AppSidebar() {
             {items.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
-                  <a href={item.url}>
+                  <Link href={item.url}>
                     <p>{item.iconEmoji}</p>
                     <item.icon />
                     <span>{item.title}</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}

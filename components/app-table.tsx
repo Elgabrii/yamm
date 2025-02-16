@@ -4,145 +4,79 @@ import { useState } from "react"
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import AppPagination from "./app-pagination"
 
-const initialOrders = [
-  {
-    Id: "ORD001",
-    reason: "Return",
-    store_name: "Acme Store",
-    store_url: "https://acme.com",
-    amount: 250,
-    active: true,
-    decision: null,
-    Items: [{ name: "Widget", id: "WIDGET1", price: 50, quantity: 5 }],
-  },
-  {
-    Id: "ORD002",
-    reason: "Refund",
-    store_name: "Best Goods",
-    store_url: "https://bestgoods.com",
-    amount: 150,
-    active: false,
-    decision: null,
-    Items: [{ name: "Gadget", id: "GADGET1", price: 75, quantity: 2 }],
-  },
-  {
-    Id: "ORD003",
-    reason: "Exchange",
-    store_name: "ShopRight",
-    store_url: "https://shopright.com",
-    amount: 350,
-    active: true,
-    decision: null,
-    Items: [{ name: "Item X", id: "ITEMX1", price: 175, quantity: 2 }],
-  },
-  {
-    Id: "ORD004",
-    reason: "Return",
-    store_name: "Acme Store",
-    store_url: "https://acme.com",
-    amount: 450,
-    active: true,
-    decision: null,
-    Items: [{ name: "Widget", id: "WIDGET2", price: 225, quantity: 2 }],
-  },
-  {
-    Id: "ORD005",
-    reason: "Refund",
-    store_name: "Best Goods",
-    store_url: "https://bestgoods.com",
-    amount: 550,
-    active: false,
-    decision: null,
-    Items: [{ name: "Gadget", id: "GADGET2", price: 275, quantity: 2 }],
-  },
-  {
-    Id: "ORD006",
-    reason: "Exchange",
-    store_name: "ShopRight",
-    store_url: "https://shopright.com",
-    amount: 200,
-    active: false,
-    decision: null,
-    Items: [{ name: "Item Y", id: "ITEMY1", price: 100, quantity: 2 }],
-  },
-  {
-    Id: "ORD007",
-    reason: "Return",
-    store_name: "Acme Store",
-    store_url: "https://acme.com",
-    amount: 300,
-    active: true,
-    decision: null,
-    Items: [{ name: "Widget", id: "WIDGET3", price: 150, quantity: 2 }],
-  },
-]
+export type Column<T> = {
+  /** Header text for the column */
+  header: string
+  /**
+   * Either a key of the data item or a function that receives the row data and returns a React node.
+   * If both `accessor` and `cell` are provided, `cell` takes precedence.
+   */
+  accessor: keyof T | ((row: T) => React.ReactNode)
+  /** Optional custom cell renderer for this column */
+  cell?: (row: T) => React.ReactNode
+}
 
-export default function AppTable() {
-  const [orderData, setOrderData] = useState(initialOrders)
+export interface DataTableProps<T> {
+  /** Array of data items */
+  data: T[]
+  /** Column configuration */
+  columns: Column<T>[]
+  /** Number of records to show per page (defaults to 10) */
+  recordsPerPage?: number
+}
 
-  const toggleActive = (orderId: string) => {
-    setOrderData((prevOrders) =>
-      prevOrders.map((order) =>
-        order.Id === orderId ? { ...order, active: !order.active } : order
-      )
-    )
-  }
+export default function DataTable<T>({
+  data,
+  columns,
+  recordsPerPage = 10,
+}: DataTableProps<T>) {
+  const [currentPage, setCurrentPage] = useState(1)
+  const totalPages = Math.ceil(data.length / recordsPerPage)
+  const paginatedData = data.slice(
+    (currentPage - 1) * recordsPerPage,
+    currentPage * recordsPerPage
+  )
 
   return (
-    <Table>
-      <TableCaption>A list of your recent orders.</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Order ID</TableHead>
-          <TableHead>Reason</TableHead>
-          <TableHead>Store</TableHead>
-          <TableHead>Amount</TableHead>
-          <TableHead>Active</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {orderData.map((order) => (
-          <TableRow key={order.Id}>
-            <TableCell className="font-medium">{order.Id}</TableCell>
-            <TableCell>{order.reason}</TableCell>
-            <TableCell>
-              <a href={order.store_url} className="text-blue-500 hover:underline">
-                {order.store_name}
-              </a>
-            </TableCell>
-            <TableCell>{`$${order.amount.toFixed(2)}`}</TableCell>
-            <TableCell>
-              <label className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={order.active}
-                  onChange={() => toggleActive(order.Id)}
-                />
-                <span>{order.active ? "Active" : "Inactive"}</span>
-              </label>
-            </TableCell>
+    <div className="flex flex-col gap-4">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {columns.map((col, idx) => (
+              <TableHead key={idx}>{col.header}</TableHead>
+            ))}
           </TableRow>
-        ))}
-      </TableBody>
-      <TableFooter>
-        <TableRow>
-          <TableCell colSpan={4}>Total</TableCell>
-          <TableCell>
-            {`$${orderData
-              .filter((order) => order.active)
-              .reduce((acc, order) => acc + order.amount, 0)
-              .toFixed(2)}`}
-          </TableCell>
-        </TableRow>
-      </TableFooter>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {paginatedData.map((row, rowIndex) => (
+            <TableRow key={rowIndex}>
+              {columns.map((col, colIndex) => {
+                let cellContent: React.ReactNode
+                if (col.cell) {
+                  cellContent = col.cell(row)
+                } else if (typeof col.accessor === "function") {
+                  cellContent = col.accessor(row)
+                } else {
+                  cellContent = row[col.accessor] as unknown as React.ReactNode
+                }
+                return <TableCell key={colIndex}>{cellContent}</TableCell>
+              })}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <AppPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
+    </div>
   )
 }

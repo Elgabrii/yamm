@@ -1,0 +1,178 @@
+export interface Order {
+  Id: string;
+  reason: string;
+  store_name: string;
+  store_url: string;
+  amount: number;
+  active: boolean;
+  decision: "Accept" | "Reject" | "Escalate" | null;
+  Items: {
+    name: string;
+    id: string;
+    price: number;
+    quantity: number;
+  }[];
+}
+
+export const defaultOrders: Order[] = [
+  {
+    Id: "ORD001",
+    reason: "Return",
+    store_name: "Acme Store",
+    store_url: "https://acme.com",
+    amount: 250,
+    active: true,
+    decision: null,
+    Items: [{ name: "Widget", id: "WIDGET1", price: 50, quantity: 5 }],
+  },
+  {
+    Id: "ORD002",
+    reason: "Refund",
+    store_name: "Best Goods",
+    store_url: "https://bestgoods.com",
+    amount: 150,
+    active: false,
+    decision: null,
+    Items: [{ name: "Gadget", id: "GADGET1", price: 75, quantity: 2 }],
+  },
+  {
+    Id: "ORD003",
+    reason: "Exchange",
+    store_name: "ShopRight",
+    store_url: "https://shopright.com",
+    amount: 350,
+    active: true,
+    decision: null,
+    Items: [{ name: "Item X", id: "ITEMX1", price: 175, quantity: 2 }],
+  },
+  {
+    Id: "ORD004",
+    reason: "Return",
+    store_name: "Acme Store",
+    store_url: "https://acme.com",
+    amount: 450,
+    active: true,
+    decision: null,
+    Items: [{ name: "Widget", id: "WIDGET2", price: 225, quantity: 2 }],
+  },
+  {
+    Id: "ORD005",
+    reason: "Refund",
+    store_name: "Best Goods",
+    store_url: "https://bestgoods.com",
+    amount: 550,
+    active: false,
+    decision: null,
+    Items: [{ name: "Gadget", id: "GADGET2", price: 275, quantity: 2 }],
+  },
+  {
+    Id: "ORD006",
+    reason: "Exchange",
+    store_name: "ShopRight",
+    store_url: "https://shopright.com",
+    amount: 200,
+    active: false,
+    decision: null,
+    Items: [{ name: "Item Y", id: "ITEMY1", price: 100, quantity: 2 }],
+  },
+  {
+    Id: "ORD007",
+    reason: "Return",
+    store_name: "Acme Store",
+    store_url: "https://acme.com",
+    amount: 300,
+    active: true,
+    decision: null,
+    Items: [{ name: "Widget", id: "WIDGET3", price: 150, quantity: 2 }],
+  },
+  {
+    Id: "ORD008",
+    reason: "Return",
+    store_name: "Acme Store",
+    store_url: "https://acme.com",
+    amount: 300,
+    active: true,
+    decision: null,
+    Items: [{ name: "Widget", id: "WIDGET3", price: 150, quantity: 2 }],
+  },
+  {
+    Id: "ORD009",
+    reason: "Return",
+    store_name: "Acme Store",
+    store_url: "https://acme.com",
+    amount: 300,
+    active: true,
+    decision: null,
+    Items: [{ name: "Widget", id: "WIDGET3", price: 150, quantity: 2 }],
+  },
+  {
+    Id: "ORD010",
+    reason: "Return",
+    store_name: "Acme Store",
+    store_url: "https://acme.com",
+    amount: 300,
+    active: true,
+    decision: null,
+    Items: [{ name: "Widget", id: "WIDGET3", price: 150, quantity: 2 }],
+  },
+  {
+    Id: "ORD012",
+    reason: "Return",
+    store_name: "Acme Store",
+    store_url: "https://acme.com",
+    amount: 300,
+    active: true,
+    decision: null,
+    Items: [{ name: "Widget", id: "WIDGET3", price: 150, quantity: 2 }],
+  },
+  {
+    Id: "ORD0013",
+    reason: "Return",
+    store_name: "Acme Store",
+    store_url: "https://acme.com",
+    amount: 300,
+    active: true,
+    decision: null,
+    Items: [{ name: "Widget", id: "WIDGET3", price: 150, quantity: 2 }],
+  },
+  {
+    Id: "ORD014",
+    reason: "Return",
+    store_name: "Acme Store",
+    store_url: "https://acme.com",
+    amount: 300,
+    active: true,
+    decision: null,
+    Items: [{ name: "Widget", id: "WIDGET3", price: 150, quantity: 2 }],
+  },
+  {
+    Id: "ORD015",
+    reason: "Return",
+    store_name: "Acme Store",
+    store_url: "https://acme.com",
+    amount: 300,
+    active: true,
+    decision: null,
+    Items: [{ name: "Widget", id: "WIDGET3", price: 150, quantity: 2 }],
+  },
+  {
+    Id: "ORD016",
+    reason: "Return",
+    store_name: "Acme Store",
+    store_url: "https://acme.com",
+    amount: 300,
+    active: true,
+    decision: null,
+    Items: [{ name: "Widget", id: "WIDGET3", price: 150, quantity: 2 }],
+  },
+  {
+    Id: "ORD017",
+    reason: "Return",
+    store_name: "Acme Store",
+    store_url: "https://acme.com",
+    amount: 300,
+    active: true,
+    decision: null,
+    Items: [{ name: "Widget", id: "WIDGET3", price: 150, quantity: 2 }],
+  },
+];
