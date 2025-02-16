@@ -3,7 +3,6 @@ import { Order } from "@/data/orders";
 
 export default function OrderDetails({ order }: { order: Order }) {
   return (
-    <div className="container mx-auto p-4">
       <Card>
         <CardHeader>
           <CardTitle>{order.store_name} - Order Details</CardTitle>
@@ -54,6 +53,5 @@ export default function OrderDetails({ order }: { order: Order }) {
           </div>
         </CardContent>
       </Card>
-    </div>
   );
 }
