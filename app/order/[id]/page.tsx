@@ -7,11 +7,17 @@ export default async function OrderPage(
   }
 ) {
   const params = await props.params;
-  const order = await fetchOrderById(params.id);
+  const { data: order, error } = await fetchOrderById(params.id);
+
+  if (error) {
+    return <div className="p-4 w-screen h-screen flex flex-col items-center justify-center">
+      <p>An error occurred while fetching order: {error}</p>
+    </div>
+  }
 
   return (
     <div className="container mx-auto p-4">
-      <OrderDetails order={order} />
+      {order && <OrderDetails order={order} />}
     </div>
   );
 }
