@@ -1,11 +1,12 @@
 import OrderDetails from "@/components/order-details";
 import { fetchOrderById } from "@/app/actions";
 
-export default async function OrderPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function OrderPage(
+  props: {
+    params: Promise<{ id: string }>;
+  }
+) {
+  const params = await props.params;
   const order = await fetchOrderById(params.id);
 
   return (

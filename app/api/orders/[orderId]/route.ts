@@ -2,10 +2,8 @@
 import { NextResponse } from "next/server";
 import { defaultOrders } from "@/data/orders";
 
-export async function GET(
-  request: Request,
-  { params }: { params: { orderId: string } }
-) {
+export async function GET(request: Request, props: { params: Promise<{ orderId: string }> }) {
+  const params = await props.params;
   const { orderId } = params;
   const order = defaultOrders.find((o) => o.Id === orderId);
 

@@ -17,7 +17,7 @@ import { Order } from "@/data/orders";
 
 interface OrderActionsProps {
   order: Order;
-  onToggleActive: (orderId: string) => void;
+  onToggleActive: (orderId: string, active?: boolean) => void;
   onChangeDecision: (args: {
     decision: "Accept" | "Reject" | "Escalate";
     orderId: string;
@@ -67,7 +67,7 @@ export default function OrderActions({
       |
       <Switch
         checked={order.active}
-        onClick={() => onToggleActive(order.Id)}
+        onClick={() => onToggleActive(order.Id, order.active)}
         type="button"
       />
       |
