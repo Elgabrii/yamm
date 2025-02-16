@@ -6,9 +6,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 export async function fetchAllOrders(): Promise<FetchOrdersResponse> {
   try {
-    const res = await fetch(`${BASE_URL}/api/orders`, {
-      cache: "no-store",
-    });
+    const res = await fetch(`${BASE_URL}/api/orders`);
     
     if (!res.ok) {
       const error = await res.text();
@@ -27,9 +25,7 @@ export async function fetchAllOrders(): Promise<FetchOrdersResponse> {
 }
 export async function fetchOrderById(orderId: string): Promise<FetchOrderByIdResponse> {
   try {
-    const res = await fetch(`${BASE_URL}/api/orders/${orderId}`, {
-      cache: "no-store",
-    });
+    const res = await fetch(`${BASE_URL}/api/orders/${orderId}`);
     
     if (!res.ok) {
       const error = await res.text();
